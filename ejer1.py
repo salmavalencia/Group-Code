@@ -5,32 +5,14 @@ import sys
 
 # path para estudiantes 'C:\\Users\\salma\\Desktop\\Codigo\\file1.txt'
 # path para topics 'C:\\Users\\salma\\Desktop\\Codigo\\file2.txt'
-def getStudents(pathEstudiantes):
-
+def getFileData(path):
     names = 0
 
-    with open(pathEstudiantes,'r') as f:
+    with open(path,'r') as f:
         data = f.readlines()
         names = len(data)
     f.close()
     return names
-
-def getTopics (pathTopics):
-
-    cant_topicos = 0
-
-    with open(pathTopics,'r') as f:
-        data = f.readlines()
-        cant_topicos = len(data)
-        print(cant_topicos)
-    f.close()
-    return cant_topicos
-
-    with open(pathTopics,'r') as f:
-        data = f.readlines()
-        names = len(data)
-    f.close()
-    return topics
 
 def groupLayout(estudiantes, grupos):
     grupos_array = []
@@ -58,7 +40,6 @@ def groupLayout(estudiantes, grupos):
             random_value = random.randint(0, grupos - 1)
             try:
                 remaining_array.index(random_value)
-                print("valor en arreglo")
             
             except:
                 grupos_array[random_value] += 1
@@ -67,16 +48,16 @@ def groupLayout(estudiantes, grupos):
     
     return grupos_array
 
-def randomizeData(estudiantes, pathEstudiantes):
+def randomizeData(fileData, path):
     new_arr = []
 
     #randomiza los estudiantes y crea un array
-    for i in range(estudiantes):
+    for i in range(fileData):
         newf=""
         check = False
         count = 0
 
-        with open(pathEstudiantes,'r') as f:
+        with open(path,'r') as f:
             data = f.readlines()
             ran = random.randint(0, len(data) - 1)
         
@@ -102,24 +83,24 @@ def randomizeData(estudiantes, pathEstudiantes):
 
         f.close()
 
-        with open(pathEstudiantes,'w') as f:
+        with open(path,'w') as f:
             f.write(newf)
         f.close()
 
     newf2 =""
 
-    with open(pathEstudiantes,'r') as f:
+    with open(path,'r') as f:
         data = f.readlines()
         for line in data:
             line = line.replace("*", "")
             newf2 +=  line.strip() + "\n"
     f.close()
 
-    file1 = open(pathEstudiantes,"r+")
+    file1 = open(path,"r+")
     file1.truncate(0)
     file1.close()
 
-    with open(pathEstudiantes,'w') as f:
+    with open(path,'w') as f:
         f.write(newf2)
     f.close()
 
@@ -134,29 +115,37 @@ def distribuirEstudiantes(estudiantes, cantidad_por_grupo):
 
     return grupo_completo
 
-    
-
-
 
 def main():
     grupos = int(sys.argv[1])
     pathEstudiantes = sys.argv[2]
     pathTopics = sys.argv[3]
 
-    estudiantes = getStudents(pathEstudiantes)
-    topic = getTopics(pathTopics)
+    estudiantes = getFileData(pathEstudiantes)
+    topic = getFileData(pathTopics)
 
-    cantidad_por_grupo = groupLayout(estudiantes, grupos)
+    estudiantes_por_grupo = groupLayout(estudiantes, grupos)
+    temas_por_grupo = groupLayout(topic, grupos)
+    topicReordenados = randomizeData(topic, pathTopics)
     estudiantesReordenados = randomizeData(estudiantes, pathEstudiantes)
-    estudiantes_asignados = distribuirEstudiantes(estudiantesReordenados, cantidad_por_grupo)
-    print(cantidad_por_grupo)
-    print(estudiantes_asignados)
+    estudiantes_asignados = distribuirEstudiantes(estudiantesReordenados, estudiantes_por_grupo)
+    temas_asignados = distribuirEstudiantes(topicReordenados, temas_por_grupo)
+
+    print("\nTotal de estudiantes:\n", estudiantes)
+    print("\nEstudiantes asignados por grupo:\n", estudiantes_por_grupo)
+    print("\nTotal de temas:\n", topic)
+    print("\nTotal de temas por grupo:\n", temas_por_grupo)
+    
     
     counter = 1
     for grupo in estudiantes_asignados:
-        print("Grupo ", counter, ": ")
-        for personas in grupo:
-            print("\t", personas)
+        print("\nGrupo ", counter, ": ")
+        print("\tTemas: ")
+        for tema in temas_asignados[counter - 1]:
+            print("\t\t", tema)
+        print("\tPersonas: ")
+        for persona in grupo:
+            print("\t\t", persona)
         print()
         counter += 1
 
