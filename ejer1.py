@@ -124,6 +124,7 @@ def distribuirEstudiantes(estudiantes, cantidad_por_grupo):
 
 
 def main():
+    
     grupos = int(sys.argv[1])
     pathEstudiantes = sys.argv[2]
     pathTopics = sys.argv[3]

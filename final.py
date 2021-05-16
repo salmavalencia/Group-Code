@@ -117,38 +117,47 @@ def distribuirEstudiantes(estudiantes, cantidad_por_grupo):
 
 
 def main():
-    grupos = int(sys.argv[1])
-    pathEstudiantes = sys.argv[2]
-    pathTopics = sys.argv[3]
-
-    estudiantes = getFileData(pathEstudiantes)
-    topic = getFileData(pathTopics)
-
-    estudiantes_por_grupo = groupLayout(estudiantes, grupos)
-    temas_por_grupo = groupLayout(topic, grupos)
-    topicReordenados = randomizeData(topic, pathTopics)
-    estudiantesReordenados = randomizeData(estudiantes, pathEstudiantes)
-    estudiantes_asignados = distribuirEstudiantes(estudiantesReordenados, estudiantes_por_grupo)
-    temas_asignados = distribuirEstudiantes(topicReordenados, temas_por_grupo)
-
-    print("\nTotal de estudiantes:\n", estudiantes)
-    print("\nEstudiantes asignados por grupo:\n", estudiantes_por_grupo)
-    print("\nTotal de temas:\n", topic)
-    print("\nTotal de temas por grupo:\n", temas_por_grupo)
     
-    
-    counter = 1
-    for grupo in estudiantes_asignados:
-        print("\nGrupo ", counter, ": ")
-        print("\tTemas: ")
-        for tema in temas_asignados[counter - 1]:
-            print("\t\t", tema)
-        print("\tPersonas: ")
-        for persona in grupo:
-            print("\t\t", persona)
-        print()
-        counter += 1
+    if len(sys.argv) == 4:
+        grupos = int(sys.argv[1])
+        pathEstudiantes = sys.argv[2]
+        pathTopics = sys.argv[3]
 
+        
+        estudiantes = getFileData(pathEstudiantes)
+        topic = getFileData(pathTopics)
+        if grupos > estudiantes:
+            print("No pueden haber más grupos que estudiantes")
+        if topic < grupos:
+            print("No pueden haber más grupos que tópicos")
+        else:
+            estudiantes_por_grupo = groupLayout(estudiantes, grupos)
+            temas_por_grupo = groupLayout(topic, grupos)
+            topicReordenados = randomizeData(topic, pathTopics)
+            estudiantesReordenados = randomizeData(estudiantes, pathEstudiantes)
+            estudiantes_asignados = distribuirEstudiantes(estudiantesReordenados, estudiantes_por_grupo)
+            temas_asignados = distribuirEstudiantes(topicReordenados, temas_por_grupo)
+
+            print("\nTotal de estudiantes:\n", estudiantes)
+            print("\nEstudiantes asignados por grupo:\n", estudiantes_por_grupo)
+            print("\nTotal de temas:\n", topic)
+            print("\nTotal de temas por grupo:\n", temas_por_grupo)
+            
+            
+            counter = 1
+            for grupo in estudiantes_asignados:
+                print("\nGrupo ", counter, ": ")
+                print("\tTemas: ")
+                for tema in temas_asignados[counter - 1]:
+                    print("\t\t", tema)
+                print("\tPersonas: ")
+                for persona in grupo:
+                    print("\t\t", persona)
+                print()
+                counter += 1
+    else:
+        print("Syntax inválido")
+        print("\tarchivo.py <números de grupos> <path hacia estudiantes> <path hacia tópicos>")
     
 main()
 
