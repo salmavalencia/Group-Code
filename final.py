@@ -6,7 +6,6 @@ import sys
 # path para estudiantes 'C:\\Users\\salma\\Desktop\\Codigo\\file1.txt'
 # path para topics 'C:\\Users\\salma\\Desktop\\Codigo\\file2.txt'
 def getFileData(path):
-
     names = 0
 
     with open(path,'r') as f:
@@ -14,8 +13,6 @@ def getFileData(path):
         names = len(data)
     f.close()
     return names
-
-
 
 def groupLayout(estudiantes, grupos):
     grupos_array = []
@@ -43,7 +40,6 @@ def groupLayout(estudiantes, grupos):
             random_value = random.randint(0, grupos - 1)
             try:
                 remaining_array.index(random_value)
-                print("valor en arreglo")
             
             except:
                 grupos_array[random_value] += 1
@@ -52,11 +48,11 @@ def groupLayout(estudiantes, grupos):
     
     return grupos_array
 
-def randomizeData(data, path):
+def randomizeData(fileData, path):
     new_arr = []
 
     #randomiza los estudiantes y crea un array
-    for i in range(data):
+    for i in range(fileData):
         newf=""
         check = False
         count = 0
@@ -119,9 +115,6 @@ def distribuirEstudiantes(estudiantes, cantidad_por_grupo):
 
     return grupo_completo
 
-    
-
-
 
 def main():
     grupos = int(sys.argv[1])
@@ -130,22 +123,31 @@ def main():
 
     estudiantes = getFileData(pathEstudiantes)
     topic = getFileData(pathTopics)
-    
 
-    cantidad_por_grupo = groupLayout(estudiantes, grupos)
-    topicosReordenados = randomizeData(topic, pathTopics)
+    estudiantes_por_grupo = groupLayout(estudiantes, grupos)
+    temas_por_grupo = groupLayout(topic, grupos)
+    topicReordenados = randomizeData(topic, pathTopics)
     estudiantesReordenados = randomizeData(estudiantes, pathEstudiantes)
-    estudiantes_asignados = distribuirEstudiantes(estudiantesReordenados, cantidad_por_grupo)
-  
-    print(topicosReordenados)
+    estudiantes_asignados = distribuirEstudiantes(estudiantesReordenados, estudiantes_por_grupo)
+    temas_asignados = distribuirEstudiantes(topicReordenados, temas_por_grupo)
+
+    print("\nTotal de estudiantes:\n", estudiantes)
+    print("\nEstudiantes asignados por grupo:\n", estudiantes_por_grupo)
+    print("\nTotal de temas:\n", topic)
+    print("\nTotal de temas por grupo:\n", temas_por_grupo)
     
-    # counter = 1
-    # for grupo in estudiantes_asignados:
-    #     print("Grupo ", counter, ": ")
-    #     for personas in grupo:
-    #         print("\t", personas)
-    #     print()
-    #     counter += 1
+    
+    counter = 1
+    for grupo in estudiantes_asignados:
+        print("\nGrupo ", counter, ": ")
+        print("\tTemas: ")
+        for tema in temas_asignados[counter - 1]:
+            print("\t\t", tema)
+        print("\tPersonas: ")
+        for persona in grupo:
+            print("\t\t", persona)
+        print()
+        counter += 1
 
     
 main()
