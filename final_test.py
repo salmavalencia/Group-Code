@@ -27,7 +27,8 @@ class Test_randomnizeData(unittest.TestCase):
          if(count >= 100000):
              test.defaultTestResult
             
-
+if __name__ == '__main__':
+    unittest.main()
              
 
    
