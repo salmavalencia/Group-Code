@@ -118,11 +118,14 @@ def distribuirEstudiantes(estudiantes, cantidad_por_grupo):
 
 def main():
     
-    if len(sys.argv) == 4:
-        grupos = int(sys.argv[1])
-        pathEstudiantes = sys.argv[2]
-        pathTopics = sys.argv[3]
+    # if len(sys.argv) == 4:
+        # grupos = int(sys.argv[1])
+        # pathEstudiantes = sys.argv[2]
+        # pathTopics = sys.argv[3]
 
+        grupos = 5
+        pathEstudiantes = "file1.txt"
+        pathTopics = "file2.txt"
         
         estudiantes = getFileData(pathEstudiantes)
         topic = getFileData(pathTopics)
@@ -155,13 +158,13 @@ def main():
                     print("\t\t", persona)
                 print()
                 counter += 1
-    else:
-        print("Syntax inválido")
-        print("\tarchivo.py <números de grupos> <path hacia estudiantes> <path hacia tópicos>")
+    # else:
+    #     print("Syntax inválido")
+    #     print("\tarchivo.py <números de grupos> <path hacia estudiantes> <path hacia tópicos>")
     
 main()
 
             
 
 
-#grupos_array.pop()
+# #grupos_array.pop()

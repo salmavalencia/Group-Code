@@ -3,10 +3,5 @@ Rowland
 Davis
 Webster
 Harper
-Guerra
-Monroe
-Diaz
-Hernandez
-Rodriguez
-Vargas
-Valencia
+Julian
+miguel
